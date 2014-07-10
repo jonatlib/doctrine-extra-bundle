@@ -2,7 +2,10 @@
 
 namespace Alex\DoctrineExtraBundle\Graphviz;
 
+<<<<<<< HEAD
 use Doctrine\Common\Proxy\Exception\OutOfBoundsException;
+=======
+>>>>>>> 64fb1725221c1ad9bcac77dc7e9834cd09dfcdfb
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -24,11 +27,16 @@ class DoctrineMetadataGraph extends Digraph
         ));
         $this->set('rankdir', 'LR');
 
+<<<<<<< HEAD
         $data = $this->prepareData($this->createData($manager));
+=======
+        $data = $this->createData($manager);
+>>>>>>> 64fb1725221c1ad9bcac77dc7e9834cd09dfcdfb
 
         $clusters = array();
 
         foreach ($data['entities'] as $class => $entity) {
+<<<<<<< HEAD
             try{
                 $clusterName = $this->getCluster($class);
                 if (!isset($clusters[$clusterName])) {
@@ -46,6 +54,20 @@ class DoctrineMetadataGraph extends Digraph
                 }
             }catch(\OutOfBoundsException $e){
                     continue;
+=======
+            $clusterName = $this->getCluster($class);
+            if (!isset($clusters[$clusterName])) {
+                $clusters[$clusterName] = $this->subgraph('cluster_'.$clusterName)
+                    ->set('label', $clusterName)
+                    ->set('style', 'filled')
+                    ->set('color', '#eeeeee')
+                    ->attr('node', array(
+                        'style' => 'filled',
+                        'color' => '#eecc88',
+                        'fillcolor' => '#FCF0AD',
+                    ))
+                ;
+>>>>>>> 64fb1725221c1ad9bcac77dc7e9834cd09dfcdfb
             }
 
             $label = $this->getEntityLabel($class, $entity);
@@ -87,6 +109,7 @@ class DoctrineMetadataGraph extends Digraph
 
     private function getEntityLabel($class, $entity)
     {
+<<<<<<< HEAD
 
         $result = '{{<__class__>'.$class.'|';
         foreach ($entity['associations'] as $name => $val) {
@@ -96,6 +119,19 @@ class DoctrineMetadataGraph extends Digraph
             $result .= $name.' : '.$val.'|';
         }
         $result = rtrim($result, '|');
+=======
+        $class = str_replace('\\', '\\\\', $class); // needed because of type "record"
+        $result = '{{<__class__> '.$class.'|';
+
+        foreach ($entity['associations'] as $name => $val) {
+            $result .= '<'.$name.'> '.$name.' : '.$val.'\l|';
+        }
+
+        foreach ($entity['fields'] as $name => $val) {
+            $result .= $name.' : '.$val.'\l';
+        }
+
+>>>>>>> 64fb1725221c1ad9bcac77dc7e9834cd09dfcdfb
         $result .= '}}';
 
         return $result;
@@ -106,11 +142,16 @@ class DoctrineMetadataGraph extends Digraph
         $exp = explode(':', $entityName);
 
         if (count($exp) !== 2) {
+<<<<<<< HEAD
             throw new \OutOfBoundsException(sprintf('Unexpected count of ":" in entity name. Expected one ("AcmeDemoBundle:User"), got %s ("%s").', count($exp), $entityName));
+=======
+            throw new \OutOfBoundsException('Unexpected count of ":" in entity name. Expected one ("AcmeDemoBundle:User"), got %s ("%s").', count($exp), $entityName);
+>>>>>>> 64fb1725221c1ad9bcac77dc7e9834cd09dfcdfb
         }
 
         return $exp[0];
     }
+<<<<<<< HEAD
 
     private function getBundleName($name)
     {
@@ -161,4 +202,6 @@ class DoctrineMetadataGraph extends Digraph
         return $data;
     }
 
+=======
+>>>>>>> 64fb1725221c1ad9bcac77dc7e9834cd09dfcdfb
 }
